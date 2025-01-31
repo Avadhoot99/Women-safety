@@ -108,7 +108,7 @@ public class EmergencyActivity extends AppCompatActivity {
 
         // Set LinkedIn URLs based on the text view clicked using if-else
         if (view.getId() == R.id.textViewDeveloper1) {
-            linkedInUrl = "https://www.linkedin.com/in/shridhar-patil-81a7762a7/";
+            linkedInUrl = "https://www.linkedin.com/in/harshal-suryawanshi/";
         } else if (view.getId() == R.id.textViewDeveloper2) {
             linkedInUrl = "https://www.linkedin.com/in/shubham-swami-3aba241b8/";
         } else if (view.getId() == R.id.textViewDeveloper3) {
