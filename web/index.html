@@ -3,87 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Women Safety App</title>
+  <title>Women Guard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="phone-frame">
-    <!-- Main Screen -->
-    <div id="screen-main" class="screen active">
-      <!-- Header Card -->
-      <div class="card header-card">
-        <button class="profile-avatar" onclick="showScreen('screen-profile')">👩🏻‍🦰</button>
-        <div class="header-text">
-          <span class="welcome-label">WELCOME</span>
-          <span class="greeting-name" id="greetingName">User</span>
-        </div>
-        <span class="info-icon" onclick="showScreen('screen-emergency')">ℹ️</span>
-      </div>
 
-      <!-- SOS Button Card -->
-      <div class="card sos-card">
-        <div class="sos-ring">
-          <button class="sos-btn" id="sosBtn" onclick="handleSOS()">SOS</button>
-        </div>
-        <p class="sos-desc">Send Emergency Alert</p>
-      </div>
+<div class="app">
 
-      <!-- Quick Actions Grid -->
-      <div class="actions-grid">
-        <div class="action-card emergency-card" onclick="callEmergency()">
-          <div class="action-icon-circle emergency-circle">☎</div>
-          <span class="action-title">Emergency</span>
-          <span class="action-sub">Call 112</span>
-        </div>
-        <div class="action-card home-card" onclick="callHome()">
-          <div class="action-icon-circle home-circle">🏠</div>
-          <span class="action-title">Call Home</span>
-          <span class="action-sub">Family</span>
-        </div>
-        <div class="action-card safe-card" onclick="sendImSafe()">
-          <div class="action-icon-circle safe-circle">✓</div>
-          <span class="action-title">I'm Safe</span>
-          <span class="action-sub">All good</span>
-        </div>
-        <div class="action-card help-card" onclick="showScreen('screen-emergency')">
-          <div class="action-icon-circle help-circle">?</div>
-          <span class="action-title">Help</span>
-          <span class="action-sub">Emergency Info</span>
-        </div>
-      </div>
+  <!-- ===================== HOME SCREEN ===================== -->
+  <div id="screen-home" class="screen active">
 
-      <!-- Quick Tips Card -->
-      <div class="card tips-card">
-        <div class="tips-header">
-          <div class="tips-bar"></div>
-          <span class="tips-title">Quick Tips</span>
+    <!-- Gradient Hero Header -->
+    <div class="hero-header">
+      <div class="hero-top">
+        <div class="hero-greeting">
+          <p class="hero-label">Good day,</p>
+          <h1 class="hero-name" id="greetingName">User</h1>
         </div>
-        <ul class="tips-list">
-          <li>Keep your emergency contacts updated</li>
-          <li>Ensure location services are enabled</li>
-          <li>Check that SMS permissions are granted</li>
-        </ul>
+        <button class="avatar-btn" onclick="showScreen('screen-profile')" title="Profile">
+          <span class="avatar-initial" id="avatarInitial">U</span>
+        </button>
+      </div>
+      <div class="location-badge">
+        <span class="loc-dot"></span>
+        <span class="loc-text">Location services active</span>
       </div>
     </div>
 
-    <!-- Profile Screen -->
-    <div id="screen-profile" class="screen">
-      <div class="screen-header">
-        <button class="back-btn" onclick="showScreen('screen-main')">&#8592;</button>
-        <div class="screen-title-row">
-          <img src="avatar.svg" class="profile-img-small" alt="Avatar" onerror="this.style.display='none'" />
-          <h2 class="screen-title">Profile</h2>
+    <!-- Scrollable content -->
+    <div class="home-scroll">
+
+      <!-- SOS Section -->
+      <div class="sos-section">
+        <p class="sos-hint">Hold for 3 seconds to send alert</p>
+        <div class="sos-outer-ring">
+          <div class="sos-mid-ring">
+            <button class="sos-btn" id="sosBtn"
+              onmousedown="startSOS()" onmouseup="cancelSOS()"
+              ontouchstart="startSOS(event)" ontouchend="cancelSOS()"
+              onclick="handleSOSTap()">
+              <span class="sos-label">SOS</span>
+              <span class="sos-sub">Emergency</span>
+            </button>
+          </div>
+        </div>
+        <!-- Countdown overlay -->
+        <div class="sos-countdown" id="sosCountdown" style="display:none">
+          <svg class="countdown-ring" viewBox="0 0 120 120">
+            <circle class="countdown-track" cx="60" cy="60" r="54"/>
+            <circle class="countdown-progress" id="countdownCircle" cx="60" cy="60" r="54"/>
+          </svg>
+          <span class="countdown-num" id="countdownNum">3</span>
         </div>
       </div>
 
-      <div class="form-group">
-        <input type="text" id="inputName" class="form-input" placeholder="Enter your full name" />
+      <!-- Quick Actions -->
+      <div class="section-label">Quick Actions</div>
+      <div class="actions-row">
+        <button class="action-pill emergency-pill" onclick="callEmergency()">
+          <span class="pill-icon">🚨</span>
+          <div class="pill-text">
+            <span class="pill-title">Emergency</span>
+            <span class="pill-sub">Dial 112</span>
+          </div>
+        </button>
+        <button class="action-pill home-pill" onclick="callHome()">
+          <span class="pill-icon">📞</span>
+          <div class="pill-text">
+            <span class="pill-title">Call Home</span>
+            <span class="pill-sub">1st contact</span>
+          </div>
+        </button>
       </div>
-      <div class="form-group">
-        <input type="number" id="inputAge" class="form-input" placeholder="Enter your age" min="1" max="100" />
+      <div class="actions-row">
+        <button class="action-pill safe-pill" onclick="sendImSafe()">
+          <span class="pill-icon">✅</span>
+          <div class="pill-text">
+            <span class="pill-title">I'm Safe</span>
+            <span class="pill-sub">Notify contacts</span>
+          </div>
+        </button>
+        <button class="action-pill info-pill" onclick="showScreen('screen-emergency')">
+          <span class="pill-icon">🛡️</span>
+          <div class="pill-text">
+            <span class="pill-title">Help & Info</span>
+            <span class="pill-sub">Resources</span>
+          </div>
+        </button>
       </div>
-      <div class="form-group">
-        <select id="selectBlood" class="form-input">
+
+      <!-- Emergency Contacts strip -->
+      <div class="section-label-row">
+        <span class="section-label" style="margin-bottom:0">Emergency Contacts</span>
+        <button class="see-all-btn" onclick="showScreen('screen-profile')">Manage</button>
+      </div>
+      <div id="homeContactStrip" class="contact-strip"></div>
+
+      <!-- Safety Tips -->
+      <div class="tips-card">
+        <div class="tips-pill">Safety Tips</div>
+        <ul class="tips-list">
+          <li>Keep your emergency contacts updated</li>
+          <li>Ensure location services are always enabled</li>
+          <li>Check SMS permissions are granted</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== PROFILE SCREEN ===================== -->
+  <div id="screen-profile" class="screen">
+    <div class="sub-header">
+      <button class="back-btn" onclick="showScreen('screen-home')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h2 class="sub-title">My Profile</h2>
+    </div>
+
+    <!-- Profile card -->
+    <div class="profile-card">
+      <div class="profile-avatar-large" id="profileAvatarLarge">U</div>
+      <div class="profile-card-info">
+        <p class="profile-card-name" id="profileCardName">Your Name</p>
+        <p class="profile-card-meta" id="profileCardMeta">Age • Blood Group</p>
+      </div>
+    </div>
+
+    <!-- Form fields -->
+    <div class="field-group">
+      <label class="field-label">Full Name</label>
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input type="text" id="inputName" class="field-input" placeholder="Enter your full name" />
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Age</label>
+      <div class="input-wrap">
+        <span class="input-icon">🎂</span>
+        <input type="number" id="inputAge" class="field-input" placeholder="Enter your age" min="1" max="100" />
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Blood Group</label>
+      <div class="input-wrap">
+        <span class="input-icon">🩸</span>
+        <select id="selectBlood" class="field-input">
           <option value="">Select Blood Group</option>
           <option>A+</option><option>A-</option>
           <option>B+</option><option>B-</option>
@@ -91,76 +159,211 @@
           <option>O+</option><option>O-</option>
         </select>
       </div>
-
-      <button class="btn-primary" onclick="saveProfile()">Save Profile</button>
-      <button class="btn-secondary" onclick="addContact()">Add Emergency Contact</button>
-
-      <h3 class="contacts-title">Emergency Contact List</h3>
-      <ul id="contactList" class="contact-list"></ul>
     </div>
+    <button class="save-btn" onclick="saveProfile()">
+      <span>Save Profile</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </button>
 
-    <!-- Emergency Info Screen -->
-    <div id="screen-emergency" class="screen">
-      <div class="screen-header">
-        <button class="back-btn" onclick="showScreen('screen-main')">&#8592;</button>
-        <h2 class="screen-title">Emergency Info</h2>
+    <!-- Contacts section -->
+    <div class="contacts-header">
+      <div>
+        <p class="contacts-heading">Emergency Contacts</p>
+        <p class="contacts-sub">Tap a contact to remove</p>
       </div>
-
-      <h3 class="section-title">Emergency Instructions</h3>
-      <hr class="divider" />
-
-      <h4 class="sub-title">Safety Instructions</h4>
-      <ol class="instructions-list">
-        <li>Always stay aware of your surroundings.</li>
-        <li>Avoid walking alone at night.</li>
-        <li>Trust your instincts and stay alert.</li>
-        <li>Keep emergency contacts saved and accessible.</li>
-        <li>Share your whereabouts with a trusted person.</li>
-      </ol>
-
-      <hr class="divider" />
-      <h4 class="sub-title">Emergency Numbers</h4>
-      <div class="emergency-buttons">
-        <button class="emerg-btn police" onclick="dialNumber('112')">🚔 Police (112)</button>
-        <button class="emerg-btn ambulance" onclick="dialNumber('102')">🚑 Ambulance (102)</button>
-        <button class="emerg-btn fire" onclick="dialNumber('101')">🚒 Fire Dept (101)</button>
-        <button class="emerg-btn women" onclick="dialNumber('1091')">👩 Women Helpline (1091)</button>
-      </div>
-
-      <hr class="divider" />
-      <h4 class="sub-title">Useful Websites</h4>
-      <ul class="link-list">
-        <li><a href="https://112.gov.in/" target="_blank">https://112.gov.in/</a></li>
-        <li><a href="https://www.socialmediamatters.in/women-safety" target="_blank">Social Media Matters – Women Safety</a></li>
-        <li><a href="https://www.stopviolence.org/" target="_blank">Stop Violence Against Women</a></li>
-        <li><a href="https://www.unwomen.org/" target="_blank">UN Women</a></li>
-      </ul>
-
-      <hr class="divider" />
-      <h4 class="sub-title">Developers</h4>
-      <ul class="link-list">
-        <li><a href="https://www.linkedin.com/in/harshal-suryawanshi-65a1882a3/" target="_blank">Harshal Suryawanshi – LinkedIn</a></li>
-        <li><a href="https://www.linkedin.com/in/tanuja-patil-502a312b0/" target="_blank">Tanuja Patil – LinkedIn</a></li>
-      </ul>
+      <button class="add-contact-btn" onclick="openAddContact()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add
+      </button>
     </div>
+    <ul id="contactList" class="contact-list"></ul>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="toast"></div>
+  <!-- ===================== EMERGENCY INFO SCREEN ===================== -->
+  <div id="screen-emergency" class="screen">
+    <div class="sub-header">
+      <button class="back-btn" onclick="showScreen('screen-home')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h2 class="sub-title">Help & Resources</h2>
+    </div>
 
-  <!-- Add Contact Modal -->
-  <div id="contactModal" class="modal-overlay" style="display:none">
-    <div class="modal">
+    <!-- Emergency numbers grid -->
+    <div class="emerg-grid">
+      <button class="emerg-card police-card" onclick="dialNumber('112')">
+        <span class="emerg-emoji">🚔</span>
+        <span class="emerg-name">Police</span>
+        <span class="emerg-num">112</span>
+      </button>
+      <button class="emerg-card amb-card" onclick="dialNumber('102')">
+        <span class="emerg-emoji">🚑</span>
+        <span class="emerg-name">Ambulance</span>
+        <span class="emerg-num">102</span>
+      </button>
+      <button class="emerg-card fire-card" onclick="dialNumber('101')">
+        <span class="emerg-emoji">🚒</span>
+        <span class="emerg-name">Fire Dept</span>
+        <span class="emerg-num">101</span>
+      </button>
+      <button class="emerg-card women-card" onclick="dialNumber('1091')">
+        <span class="emerg-emoji">🆘</span>
+        <span class="emerg-name">Women Help</span>
+        <span class="emerg-num">1091</span>
+      </button>
+    </div>
+
+    <!-- Safety Instructions -->
+    <div class="info-section">
+      <div class="info-section-header">
+        <div class="info-section-dot red-dot"></div>
+        <h3 class="info-section-title">Safety Instructions</h3>
+      </div>
+      <div class="instruction-cards">
+        <div class="instruction-card">
+          <span class="instruction-num">1</span>
+          <p>Always stay aware of your surroundings.</p>
+        </div>
+        <div class="instruction-card">
+          <span class="instruction-num">2</span>
+          <p>Avoid walking alone at night.</p>
+        </div>
+        <div class="instruction-card">
+          <span class="instruction-num">3</span>
+          <p>Trust your instincts and stay alert.</p>
+        </div>
+        <div class="instruction-card">
+          <span class="instruction-num">4</span>
+          <p>Keep emergency contacts saved and accessible.</p>
+        </div>
+        <div class="instruction-card">
+          <span class="instruction-num">5</span>
+          <p>Share your whereabouts with a trusted person.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Useful Websites -->
+    <div class="info-section">
+      <div class="info-section-header">
+        <div class="info-section-dot blue-dot"></div>
+        <h3 class="info-section-title">Useful Resources</h3>
+      </div>
+      <div class="link-cards">
+        <a class="link-card" href="https://112.gov.in/" target="_blank">
+          <span class="link-card-icon">🌐</span>
+          <div class="link-card-text">
+            <span class="link-card-title">Emergency Response (112)</span>
+            <span class="link-card-url">112.gov.in</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a class="link-card" href="https://www.stopviolence.org/" target="_blank">
+          <span class="link-card-icon">🌐</span>
+          <div class="link-card-text">
+            <span class="link-card-title">Stop Violence Against Women</span>
+            <span class="link-card-url">stopviolence.org</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a class="link-card" href="https://www.unwomen.org/" target="_blank">
+          <span class="link-card-icon">🌐</span>
+          <div class="link-card-text">
+            <span class="link-card-title">UN Women</span>
+            <span class="link-card-url">unwomen.org</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Developers -->
+    <div class="info-section">
+      <div class="info-section-header">
+        <div class="info-section-dot purple-dot"></div>
+        <h3 class="info-section-title">Developers</h3>
+      </div>
+      <div class="link-cards">
+        <a class="link-card" href="https://www.linkedin.com/in/harshal-suryawanshi-65a1882a3/" target="_blank">
+          <span class="link-card-icon">💼</span>
+          <div class="link-card-text">
+            <span class="link-card-title">Harshal Suryawanshi</span>
+            <span class="link-card-url">LinkedIn Profile</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a class="link-card" href="https://www.linkedin.com/in/tanuja-patil-502a312b0/" target="_blank">
+          <span class="link-card-icon">💼</span>
+          <div class="link-card-text">
+            <span class="link-card-title">Tanuja Patil</span>
+            <span class="link-card-url">LinkedIn Profile</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===================== BOTTOM NAV ===================== -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="showScreen('screen-home'); setNav('nav-home')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" id="nav-profile" onclick="showScreen('screen-profile'); setNav('nav-profile')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profile</span>
+    </button>
+    <button class="nav-item" id="nav-emergency" onclick="showScreen('screen-emergency'); setNav('nav-emergency')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Help</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ===================== SOS ALERT OVERLAY ===================== -->
+<div id="sosOverlay" class="sos-overlay" style="display:none">
+  <div class="sos-overlay-content">
+    <div class="sos-sent-ring">
+      <div class="sos-sent-icon">✓</div>
+    </div>
+    <h2 class="sos-sent-title">Alert Sent!</h2>
+    <p class="sos-sent-msg" id="sosSentMsg">SOS message sent to your emergency contacts.</p>
+    <button class="sos-dismiss-btn" onclick="dismissSOSOverlay()">I'm getting help</button>
+  </div>
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div id="toast" class="toast"></div>
+
+<!-- ===================== ADD CONTACT MODAL ===================== -->
+<div id="contactModal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-header">
       <h3>Add Emergency Contact</h3>
-      <input type="text" id="contactName" class="form-input" placeholder="Contact Name" />
-      <input type="tel" id="contactNumber" class="form-input" placeholder="Phone Number" />
-      <div class="modal-actions">
-        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
-        <button class="btn-primary" onclick="saveContact()">Add</button>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="field-group" style="margin-top:4px">
+      <label class="field-label">Contact Name</label>
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input type="text" id="contactName" class="field-input" placeholder="e.g. Mom, Sister" />
       </div>
     </div>
+    <div class="field-group">
+      <label class="field-label">Phone Number</label>
+      <div class="input-wrap">
+        <span class="input-icon">📱</span>
+        <input type="tel" id="contactNumber" class="field-input" placeholder="+91 98765 43210" />
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel-btn" onclick="closeModal()">Cancel</button>
+      <button class="modal-save-btn" onclick="saveContact()">Add Contact</button>
+    </div>
   </div>
+</div>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

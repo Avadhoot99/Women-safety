@@ -1,76 +1,135 @@
-// ==================== STATE ====================
+// ==========================================
+// WOMEN GUARD — App Logic
+// ==========================================
+
 let contacts = [];
 let profile = { name: '', age: '', bloodGroup: '' };
 
-// ==================== INIT ====================
+// SOS hold-to-send
+let sosHoldTimer = null;
+let sosCountdownInterval = null;
+let sosHoldDuration = 3000; // ms
+let sosHoldStart = null;
+
+const CIRCUMFERENCE = 2 * Math.PI * 54; // matches SVG r=54
+
+// ==========================================
+// INIT
+// ==========================================
 window.addEventListener('DOMContentLoaded', () => {
   loadFromStorage();
   updateGreeting();
   renderContacts();
+  renderHomeContactStrip();
+  updateProfileCard();
 });
 
+// ==========================================
+// STORAGE
+// ==========================================
 function loadFromStorage() {
   try {
-    const stored = localStorage.getItem('womensafety_profile');
-    if (stored) profile = JSON.parse(stored);
+    const p = localStorage.getItem('wg_profile');
+    if (p) profile = JSON.parse(p);
+    const c = localStorage.getItem('wg_contacts');
+    if (c) contacts = JSON.parse(c);
 
-    const storedContacts = localStorage.getItem('womensafety_contacts');
-    if (storedContacts) contacts = JSON.parse(storedContacts);
-
-    // Populate profile form
     document.getElementById('inputName').value = profile.name || '';
     document.getElementById('inputAge').value = profile.age || '';
     document.getElementById('selectBlood').value = profile.bloodGroup || '';
   } catch (e) {
-    console.error('Failed to load from storage', e);
+    console.error('Storage load error', e);
   }
 }
 
 function saveToStorage() {
-  localStorage.setItem('womensafety_profile', JSON.stringify(profile));
-  localStorage.setItem('womensafety_contacts', JSON.stringify(contacts));
+  localStorage.setItem('wg_profile', JSON.stringify(profile));
+  localStorage.setItem('wg_contacts', JSON.stringify(contacts));
 }
 
-// ==================== NAVIGATION ====================
+// ==========================================
+// NAVIGATION
+// ==========================================
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById(id);
-  if (target) {
-    target.classList.add('active');
-    target.scrollTop = 0;
+  const t = document.getElementById(id);
+  if (t) {
+    t.classList.add('active');
+    t.scrollTop = 0;
+  }
+  const navMap = {
+    'screen-home': 'nav-home',
+    'screen-profile': 'nav-profile',
+    'screen-emergency': 'nav-emergency'
+  };
+  if (navMap[id]) setNav(navMap[id]);
+}
+
+function setNav(activeId) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById(activeId);
+  if (el) el.classList.add('active');
+}
+
+// ==========================================
+// GREETING & PROFILE CARD
+// ==========================================
+function updateGreeting() {
+  const name = profile.name || 'User';
+  const el = document.getElementById('greetingName');
+  if (el) el.textContent = name;
+
+  const init = document.getElementById('avatarInitial');
+  if (init) init.textContent = name.charAt(0).toUpperCase();
+}
+
+function updateProfileCard() {
+  const nameEl = document.getElementById('profileCardName');
+  const metaEl = document.getElementById('profileCardMeta');
+  const avatarEl = document.getElementById('profileAvatarLarge');
+
+  if (nameEl) nameEl.textContent = profile.name || 'Your Name';
+  if (metaEl) {
+    const parts = [];
+    if (profile.age) parts.push(`Age ${profile.age}`);
+    if (profile.bloodGroup) parts.push(profile.bloodGroup);
+    metaEl.textContent = parts.length ? parts.join(' • ') : 'Set up your profile';
+  }
+  if (avatarEl) {
+    avatarEl.textContent = (profile.name || 'U').charAt(0).toUpperCase();
   }
 }
 
-// ==================== GREETING ====================
-function updateGreeting() {
-  const el = document.getElementById('greetingName');
-  if (el) el.textContent = profile.name || 'User';
-}
-
-// ==================== PROFILE ====================
+// ==========================================
+// PROFILE
+// ==========================================
 function saveProfile() {
   const name = document.getElementById('inputName').value.trim();
   const age = document.getElementById('inputAge').value.trim();
   const bloodGroup = document.getElementById('selectBlood').value;
 
-  if (!name) { showToast('Please enter your name.'); return; }
-  if (!age || isNaN(age) || age < 1 || age > 100) {
-    showToast('Please enter a valid age between 1 and 100.');
+  if (!name) { showToast('Please enter your full name.'); return; }
+  if (!age || isNaN(age) || +age < 1 || +age > 100) {
+    showToast('Please enter a valid age (1–100).');
     return;
   }
-  if (!bloodGroup) { showToast('Please select a blood group.'); return; }
+  if (!bloodGroup) { showToast('Please select your blood group.'); return; }
 
   profile = { name, age, bloodGroup };
   saveToStorage();
   updateGreeting();
-  showToast('Profile saved successfully!');
+  updateProfileCard();
+  showToast('Profile saved!');
 }
 
-// ==================== CONTACTS ====================
-function addContact() {
+// ==========================================
+// CONTACTS
+// ==========================================
+function openAddContact() {
   document.getElementById('contactName').value = '';
   document.getElementById('contactNumber').value = '';
   document.getElementById('contactModal').style.display = 'flex';
+  setTimeout(() => document.getElementById('contactName').focus(), 100);
 }
 
 function closeModal() {
@@ -81,28 +140,35 @@ function saveContact() {
   const name = document.getElementById('contactName').value.trim();
   const number = document.getElementById('contactNumber').value.trim();
 
-  if (!name || !number) { showToast('Please enter both name and number.'); return; }
-  if (!/^\+?[\d\s\-()]{7,15}$/.test(number)) {
+  if (!name || !number) { showToast('Please fill in both fields.'); return; }
+  if (!/^\+?[\d\s\-()]{7,20}$/.test(number)) {
     showToast('Please enter a valid phone number.');
     return;
   }
 
-  const exists = contacts.some(c => c.number === number);
-  if (exists) { showToast('Contact already exists.'); return; }
+  const exists = contacts.some(c => c.number.replace(/\s/g,'') === number.replace(/\s/g,''));
+  if (exists) { showToast('This number is already in your contacts.'); return; }
 
   contacts.push({ name, number });
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   saveToStorage();
   renderContacts();
+  renderHomeContactStrip();
   closeModal();
-  showToast('Contact added: ' + name);
+  showToast(`${name} added to emergency contacts`);
 }
 
 function removeContact(index) {
-  const removed = contacts.splice(index, 1);
+  const c = contacts[index];
+  contacts.splice(index, 1);
   saveToStorage();
   renderContacts();
-  showToast('Contact removed: ' + (removed[0]?.name || ''));
+  renderHomeContactStrip();
+  showToast(`${c?.name || 'Contact'} removed`);
+}
+
+function getInitial(name) {
+  return (name || '?').charAt(0).toUpperCase();
 }
 
 function renderContacts() {
@@ -110,106 +176,222 @@ function renderContacts() {
   if (!list) return;
 
   if (contacts.length === 0) {
-    list.innerHTML = '<li style="color:#666;font-size:13px;padding:8px 0;">No emergency contacts added yet.</li>';
+    list.innerHTML = `
+      <li class="contact-empty">
+        <span>📋</span>
+        No emergency contacts yet.<br>Tap "Add" to add your first contact.
+      </li>`;
     return;
   }
 
   list.innerHTML = contacts.map((c, i) => `
     <li class="contact-item" onclick="removeContact(${i})">
-      <div class="contact-info">
+      <div class="contact-avatar">${escapeHtml(getInitial(c.name))}</div>
+      <div class="contact-details">
         <div class="contact-name">${escapeHtml(c.name)}</div>
         <div class="contact-number">${escapeHtml(c.number)}</div>
       </div>
-      <span class="contact-remove" title="Tap to remove">&times;</span>
+      <div class="contact-remove" title="Remove">✕</div>
     </li>
   `).join('');
 }
 
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function renderHomeContactStrip() {
+  const strip = document.getElementById('homeContactStrip');
+  if (!strip) return;
 
-// ==================== SOS ====================
-function handleSOS() {
   if (contacts.length === 0) {
-    showToast('No contacts added. Please add emergency contacts first.');
+    strip.innerHTML = `<span class="contact-strip-empty">No contacts added yet — go to Profile to add some.</span>`;
     return;
   }
 
-  const btn = document.getElementById('sosBtn');
-  btn.classList.add('sos-active');
-  setTimeout(() => btn.classList.remove('sos-active'), 1600);
+  strip.innerHTML = contacts.slice(0, 4).map(c => `
+    <div class="contact-chip">
+      <div class="chip-avatar">${escapeHtml(getInitial(c.name))}</div>
+      <span class="chip-name">${escapeHtml(c.name)}</span>
+    </div>
+  `).join('');
+}
 
-  // Simulate getting location and sending SOS
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ==========================================
+// SOS — Hold-to-Send with Countdown
+// ==========================================
+function startSOS(e) {
+  if (e) e.preventDefault();
+  if (sosHoldTimer) return;
+
+  const btn = document.getElementById('sosBtn');
+  const overlay = document.getElementById('sosCountdown');
+  const circle = document.getElementById('countdownCircle');
+  const numEl = document.getElementById('countdownNum');
+
+  btn.classList.add('pressing');
+  overlay.style.display = 'flex';
+
+  // Init SVG ring
+  circle.style.strokeDasharray = CIRCUMFERENCE;
+  circle.style.strokeDashoffset = 0;
+
+  sosHoldStart = Date.now();
+  let secsLeft = 3;
+  numEl.textContent = secsLeft;
+
+  sosCountdownInterval = setInterval(() => {
+    const elapsed = Date.now() - sosHoldStart;
+    const progress = Math.min(elapsed / sosHoldDuration, 1);
+    circle.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+
+    const newSecs = Math.max(0, Math.ceil((sosHoldDuration - elapsed) / 1000));
+    if (newSecs !== secsLeft) {
+      secsLeft = newSecs;
+      numEl.textContent = secsLeft || '!';
+    }
+  }, 50);
+
+  sosHoldTimer = setTimeout(() => {
+    clearInterval(sosCountdownInterval);
+    sosCountdownInterval = null;
+    sosHoldTimer = null;
+    btn.classList.remove('pressing');
+    overlay.style.display = 'none';
+    triggerSOS();
+  }, sosHoldDuration);
+}
+
+function cancelSOS() {
+  if (sosHoldTimer) {
+    clearTimeout(sosHoldTimer);
+    sosHoldTimer = null;
+  }
+  if (sosCountdownInterval) {
+    clearInterval(sosCountdownInterval);
+    sosCountdownInterval = null;
+  }
+  const btn = document.getElementById('sosBtn');
+  const overlay = document.getElementById('sosCountdown');
+  btn.classList.remove('pressing');
+  overlay.style.display = 'none';
+}
+
+function handleSOSTap() {
+  if (contacts.length === 0) {
+    showToast('Add emergency contacts first!');
+    showScreen('screen-profile');
+    setNav('nav-profile');
+  }
+}
+
+function triggerSOS() {
+  if (contacts.length === 0) {
+    showToast('No emergency contacts. Please add contacts first.');
+    return;
+  }
+
+  const sendAlert = (locationStr) => {
+    const msg = buildMessage("🚨 HELP! I'm in danger.", locationStr);
+    console.log('SOS Message:', msg);
+    showSOSOverlay();
+  };
+
   if (navigator.geolocation) {
-    showToast('Getting your location...');
     navigator.geolocation.getCurrentPosition(
       pos => {
-        const { latitude, longitude } = pos.coords;
-        const link = `https://maps.google.com/?q=${latitude},${longitude}`;
-        const msg = buildMessage('Help! I\'m in danger.', link);
-        contacts.forEach(c => showToast(`SOS sent to ${c.name}`));
-        console.log('SOS Message:', msg);
+        const link = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
+        sendAlert(link);
       },
-      () => {
-        const msg = buildMessage('Help! I\'m in danger.', '(location unavailable)');
-        contacts.forEach(c => showToast(`SOS sent to ${c.name}`));
-        console.log('SOS Message (no location):', msg);
-      }
+      () => sendAlert('(location unavailable)')
     );
   } else {
-    const msg = buildMessage('Help! I\'m in danger.', '');
-    contacts.forEach(c => showToast(`SOS sent to ${c.name}`));
-    console.log('SOS Message:', msg);
+    sendAlert('');
   }
 }
 
 function buildMessage(base, link) {
-  return `${base} - Name: ${profile.name || 'Unknown'}, Age: ${profile.age || 'Unknown'}, Blood Group: ${profile.bloodGroup || 'Unknown'}. ${link}`;
+  const n = profile.name || 'Unknown';
+  const a = profile.age || '?';
+  const b = profile.bloodGroup || '?';
+  return `${base} — ${n}, Age ${a}, Blood: ${b}. ${link}`;
 }
 
-// ==================== I'M SAFE ====================
+function showSOSOverlay() {
+  const overlay = document.getElementById('sosOverlay');
+  const msgEl = document.getElementById('sosSentMsg');
+
+  const names = contacts.map(c => c.name).join(', ');
+  msgEl.textContent = `Alert sent to: ${names}`;
+
+  overlay.style.display = 'flex';
+}
+
+function dismissSOSOverlay() {
+  document.getElementById('sosOverlay').style.display = 'none';
+  showToast('Stay safe. Help is on the way.');
+}
+
+// ==========================================
+// I'M SAFE
+// ==========================================
 function sendImSafe() {
   if (contacts.length === 0) {
-    showToast('No contacts added. Please add emergency contacts first.');
+    showToast('Please add emergency contacts first.');
     return;
   }
-  const msg = buildMessage("I'm safe", '');
-  contacts.forEach(c => showToast(`"I'm Safe" sent to ${c.name}`));
+  const msg = buildMessage("✅ I'm safe now.", '');
   console.log('Safe Message:', msg);
+  const names = contacts.map(c => c.name).join(', ');
+  showToast(`"I'm Safe" sent to ${names}`);
 }
 
-// ==================== CALL EMERGENCY ====================
+// ==========================================
+// CALLS
+// ==========================================
 function callEmergency() {
-  showToast('Calling Emergency: 112');
-  window.location.href = 'tel:112';
+  showToast('Dialling 112 — Emergency');
+  setTimeout(() => { window.location.href = 'tel:112'; }, 400);
 }
 
 function callHome() {
   if (contacts.length === 0) {
-    showToast('No contacts available. Please add at least one contact.');
+    showToast('No contacts found. Add a contact first.');
     return;
   }
   const first = contacts[0];
-  showToast(`Calling ${first.name}: ${first.number}`);
-  window.location.href = 'tel:' + first.number;
+  showToast(`Calling ${first.name}…`);
+  setTimeout(() => { window.location.href = 'tel:' + first.number; }, 400);
 }
 
 function dialNumber(num) {
-  showToast(`Calling ${num}...`);
-  window.location.href = 'tel:' + num;
+  showToast(`Calling ${num}…`);
+  setTimeout(() => { window.location.href = 'tel:' + num; }, 400);
 }
 
-// ==================== TOAST ====================
+// ==========================================
+// TOAST
+// ==========================================
 let toastTimer = null;
 
-function showToast(message) {
+function showToast(msg) {
   const toast = document.getElementById('toast');
-  toast.textContent = message;
+  toast.textContent = msg;
   toast.classList.add('show');
-
   if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    toast.classList.remove('show');
-  }, 2800);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
 }
+
+// ==========================================
+// KEYBOARD: close modal on Escape
+// ==========================================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    cancelSOS();
+  }
+});
