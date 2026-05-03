@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Women Safety App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="phone-frame">
+    <!-- Main Screen -->
+    <div id="screen-main" class="screen active">
+      <!-- Header Card -->
+      <div class="card header-card">
+        <button class="profile-avatar" onclick="showScreen('screen-profile')">👩🏻‍🦰</button>
+        <div class="header-text">
+          <span class="welcome-label">WELCOME</span>
+          <span class="greeting-name" id="greetingName">User</span>
+        </div>
+        <span class="info-icon" onclick="showScreen('screen-emergency')">ℹ️</span>
+      </div>
+
+      <!-- SOS Button Card -->
+      <div class="card sos-card">
+        <div class="sos-ring">
+          <button class="sos-btn" id="sosBtn" onclick="handleSOS()">SOS</button>
+        </div>
+        <p class="sos-desc">Send Emergency Alert</p>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="actions-grid">
+        <div class="action-card emergency-card" onclick="callEmergency()">
+          <div class="action-icon-circle emergency-circle">☎</div>
+          <span class="action-title">Emergency</span>
+          <span class="action-sub">Call 112</span>
+        </div>
+        <div class="action-card home-card" onclick="callHome()">
+          <div class="action-icon-circle home-circle">🏠</div>
+          <span class="action-title">Call Home</span>
+          <span class="action-sub">Family</span>
+        </div>
+        <div class="action-card safe-card" onclick="sendImSafe()">
+          <div class="action-icon-circle safe-circle">✓</div>
+          <span class="action-title">I'm Safe</span>
+          <span class="action-sub">All good</span>
+        </div>
+        <div class="action-card help-card" onclick="showScreen('screen-emergency')">
+          <div class="action-icon-circle help-circle">?</div>
+          <span class="action-title">Help</span>
+          <span class="action-sub">Emergency Info</span>
+        </div>
+      </div>
+
+      <!-- Quick Tips Card -->
+      <div class="card tips-card">
+        <div class="tips-header">
+          <div class="tips-bar"></div>
+          <span class="tips-title">Quick Tips</span>
+        </div>
+        <ul class="tips-list">
+          <li>Keep your emergency contacts updated</li>
+          <li>Ensure location services are enabled</li>
+          <li>Check that SMS permissions are granted</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Profile Screen -->
+    <div id="screen-profile" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" onclick="showScreen('screen-main')">&#8592;</button>
+        <div class="screen-title-row">
+          <img src="avatar.svg" class="profile-img-small" alt="Avatar" onerror="this.style.display='none'" />
+          <h2 class="screen-title">Profile</h2>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="inputName" class="form-input" placeholder="Enter your full name" />
+      </div>
+      <div class="form-group">
+        <input type="number" id="inputAge" class="form-input" placeholder="Enter your age" min="1" max="100" />
+      </div>
+      <div class="form-group">
+        <select id="selectBlood" class="form-input">
+          <option value="">Select Blood Group</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>AB+</option><option>AB-</option>
+          <option>O+</option><option>O-</option>
+        </select>
+      </div>
+
+      <button class="btn-primary" onclick="saveProfile()">Save Profile</button>
+      <button class="btn-secondary" onclick="addContact()">Add Emergency Contact</button>
+
+      <h3 class="contacts-title">Emergency Contact List</h3>
+      <ul id="contactList" class="contact-list"></ul>
+    </div>
+
+    <!-- Emergency Info Screen -->
+    <div id="screen-emergency" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" onclick="showScreen('screen-main')">&#8592;</button>
+        <h2 class="screen-title">Emergency Info</h2>
+      </div>
+
+      <h3 class="section-title">Emergency Instructions</h3>
+      <hr class="divider" />
+
+      <h4 class="sub-title">Safety Instructions</h4>
+      <ol class="instructions-list">
+        <li>Always stay aware of your surroundings.</li>
+        <li>Avoid walking alone at night.</li>
+        <li>Trust your instincts and stay alert.</li>
+        <li>Keep emergency contacts saved and accessible.</li>
+        <li>Share your whereabouts with a trusted person.</li>
+      </ol>
+
+      <hr class="divider" />
+      <h4 class="sub-title">Emergency Numbers</h4>
+      <div class="emergency-buttons">
+        <button class="emerg-btn police" onclick="dialNumber('112')">🚔 Police (112)</button>
+        <button class="emerg-btn ambulance" onclick="dialNumber('102')">🚑 Ambulance (102)</button>
+        <button class="emerg-btn fire" onclick="dialNumber('101')">🚒 Fire Dept (101)</button>
+        <button class="emerg-btn women" onclick="dialNumber('1091')">👩 Women Helpline (1091)</button>
+      </div>
+
+      <hr class="divider" />
+      <h4 class="sub-title">Useful Websites</h4>
+      <ul class="link-list">
+        <li><a href="https://112.gov.in/" target="_blank">https://112.gov.in/</a></li>
+        <li><a href="https://www.socialmediamatters.in/women-safety" target="_blank">Social Media Matters – Women Safety</a></li>
+        <li><a href="https://www.stopviolence.org/" target="_blank">Stop Violence Against Women</a></li>
+        <li><a href="https://www.unwomen.org/" target="_blank">UN Women</a></li>
+      </ul>
+
+      <hr class="divider" />
+      <h4 class="sub-title">Developers</h4>
+      <ul class="link-list">
+        <li><a href="https://www.linkedin.com/in/harshal-suryawanshi-65a1882a3/" target="_blank">Harshal Suryawanshi – LinkedIn</a></li>
+        <li><a href="https://www.linkedin.com/in/tanuja-patil-502a312b0/" target="_blank">Tanuja Patil – LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Add Contact Modal -->
+  <div id="contactModal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h3>Add Emergency Contact</h3>
+      <input type="text" id="contactName" class="form-input" placeholder="Contact Name" />
+      <input type="tel" id="contactNumber" class="form-input" placeholder="Phone Number" />
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveContact()">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

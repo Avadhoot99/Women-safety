@@ -1,0 +1,71 @@
+Redesign and enhance the UI/UX of an existing Android mobile application called "Women Guard" without changing its core functionality, backend logic, or code structure. The goal is to transform the app into a modern, startup-level product with a clean, intuitive, and visually appealing design.
+
+Focus on improving only the user interface and user experience while keeping all features the same.
+
+Key Features of the App:
+- SOS emergency button
+- Real-time location sharing via SMS
+- Emergency contact selection
+- User profile (name, age, blood group)
+- Fingerprint authentication
+- Audio/video recording in emergency
+
+UI/UX Enhancement Requirements:
+
+1. Visual Design:
+- Use a modern, minimal, and clean design style
+- Apply a consistent color palette (suggest safety-themed colors like red, dark blue, white)
+- Improve typography (clear hierarchy, readable fonts)
+- Use soft shadows, rounded corners, and proper spacing
+- Add subtle gradients for a premium startup look
+
+2. User Experience:
+- Make navigation simple and intuitive (bottom navigation or card-based layout)
+- Ensure emergency actions (SOS button) are highly visible and accessible
+- Reduce user steps for critical actions (one-tap SOS)
+- Improve accessibility (large buttons, readable text, contrast)
+
+3. Home Screen:
+- Highlight SOS button as the main element (floating or center)
+- Show quick access to emergency contacts
+- Display current location status clearly
+- Add icons for better understanding
+
+4. Contact Management Screen:
+- Clean list UI with profile icons
+- Easy add/remove/edit options
+- Use swipe gestures if possible (UI-level suggestion)
+
+5. Profile Screen:
+- Card-style layout for user info
+- Editable fields with clear labels
+- Simple and clean design
+
+6. Emergency Mode UI:
+- Add visual feedback when SOS is triggered (animation, color change)
+- Show “Alert Sent” confirmation clearly
+- Optional countdown before sending SOS
+
+7. Microinteractions:
+- Add button press animations
+- Smooth transitions between screens
+- Feedback for actions (success, error)
+
+8. Consistency:
+- Maintain consistent spacing, colors, and components across all screens
+- Follow Material Design principles
+
+9. Icons & Assets:
+- Use modern, meaningful icons
+- Keep icon style consistent throughout the app
+
+10. Constraints:
+- Do NOT change backend logic or app functionality
+- Do NOT add new technical features
+- Only improve UI/UX layer visually and structurally
+
+Output:
+- Provide redesigned screen descriptions (Home, Contacts, Profile, SOS screen)
+- Suggest color palette and font styles
+- Suggest layout improvements that can be implemented using existing XML (no major code rewrite)
+- Keep it practical for Android Studio implementation
