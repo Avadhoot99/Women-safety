@@ -1,15 +1,15 @@
 package com.example.womensafety;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.Html;
-import android.text.SpannableString;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,7 +41,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ListView listViewContacts;
     private ArrayAdapter<Contact> adapter;
 
-    // Constants for SharedPreferences keys
     private static final String KEY_NAME = "Name";
     private static final String KEY_AGE = "Age";
     private static final String KEY_BLOOD_GROUP = "BloodGroup";
@@ -60,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         buttonAddContact = findViewById(R.id.selectContactsButton);
         listViewContacts = findViewById(R.id.listViewContacts);
 
-        // Load blood group options into spinner
+        // Set up blood group spinner
         ArrayAdapter<CharSequence> bloodGroupAdapter = ArrayAdapter.createFromResource(this,
                 R.array.blood_groups, android.R.layout.simple_spinner_item);
         bloodGroupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -76,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
                 saveUserData(
                         editTextName.getText().toString(),
                         editTextAge.getText().toString(),
-                        spinnerBloodGroup.getSelectedItem().toString(), // Get selected blood group
+                        spinnerBloodGroup.getSelectedItem().toString(),
                         contactsList
                 );
                 Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
@@ -84,24 +82,28 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         buttonAddContact.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, PICK_CONTACT);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS}, PICK_CONTACT);
             } else {
                 openContactPicker();
             }
         });
 
-        // Handle removing contacts on ListView item click
         listViewContacts.setOnItemClickListener((parent, view, position, id) -> {
             Contact contactToRemove = contactsList.get(position);
             contactsList.remove(contactToRemove);
             adapter.notifyDataSetChanged();
-            saveUserData(editTextName.getText().toString(), editTextAge.getText().toString(), spinnerBloodGroup.getSelectedItem().toString(), contactsList);
+            saveUserData(
+                    editTextName.getText().toString(),
+                    editTextAge.getText().toString(),
+                    spinnerBloodGroup.getSelectedItem().toString(),
+                    contactsList
+            );
             Toast.makeText(ProfileActivity.this, "Contact removed: " + contactToRemove.getName(), Toast.LENGTH_SHORT).show();
         });
     }
-
-
 
     private void openContactPicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
@@ -113,15 +115,19 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_CONTACT && resultCode == RESULT_OK && data != null) {
             Uri contactUri = data.getData();
-            String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+            String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+
             try (Cursor cursor = getContentResolver().query(contactUri, projection, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
+                    @SuppressLint("Range")
                     String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    @SuppressLint("Range")
                     String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 
                     if (name != null && number != null) {
                         Contact newContact = new Contact(name, number);
-                        if (!contactsList.contains(newContact)) {  // Ensure no duplicates
+                        if (!contactsList.contains(newContact)) {
                             contactsList.add(newContact);
                             adapter.notifyDataSetChanged();
                             saveUserData(editTextName.getText().toString(), editTextAge.getText().toString(), spinnerBloodGroup.getSelectedItem().toString(), contactsList);
@@ -168,40 +174,44 @@ public class ProfileActivity extends AppCompatActivity {
         String name = sharedPreferences.getString(KEY_NAME, "");
         String age = sharedPreferences.getString(KEY_AGE, "");
         String bloodGroup = sharedPreferences.getString(KEY_BLOOD_GROUP, "");
+
         editTextName.setText(name);
         editTextAge.setText(age);
-        // Set the selected blood group in the spinner
+
+        // Set selected spinner item if it exists
         ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerBloodGroup.getAdapter();
-        int spinnerPosition = adapter.getPosition(bloodGroup);
-        spinnerBloodGroup.setSelection(spinnerPosition);
+        if (bloodGroup != null) {
+            int position = adapter.getPosition(bloodGroup);
+            if (position >= 0) {
+                spinnerBloodGroup.setSelection(position);
+            }
+        }
 
         Gson gson = new Gson();
         String jsonContacts = sharedPreferences.getString(KEY_CONTACTS, "[]");
         Type type = new TypeToken<List<Contact>>() {}.getType();
         List<Contact> loadedContacts = gson.fromJson(jsonContacts, type);
 
-        // Clear list and add all contacts to ensure updated display, then sort alphabetically
         if (loadedContacts != null) {
             contactsList.clear();
             contactsList.addAll(loadedContacts);
-            Collections.sort(contactsList, Comparator.comparing(Contact::getName));  // Sorting alphabetically by name
+            Collections.sort(contactsList, Comparator.comparing(Contact::getName));
             adapter.notifyDataSetChanged();
         }
     }
-
-
 
     private boolean validateInputs() {
         String name = editTextName.getText().toString();
         String age = editTextAge.getText().toString();
         String bloodGroup = spinnerBloodGroup.getSelectedItem().toString();
 
-        if (name.isEmpty() || age.isEmpty() || bloodGroup.isEmpty()) {
-            Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show();
-            return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            if (name.isEmpty() || age.isEmpty() || bloodGroup.equals("Select Blood Group")) {
+                Toast.makeText(this, "Please fill out all fields correctly.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
 
-        // Check that age is a valid number and between 1 and 100
         try {
             int ageValue = Integer.parseInt(age);
             if (ageValue < 1 || ageValue > 100) {
@@ -243,7 +253,11 @@ public class ProfileActivity extends AppCompatActivity {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Contact contact = (Contact) o;
-            return number.equals(contact.number); // Comparing by number to avoid duplicates
+            return number.equals(contact.number);
+        }
+
+        public boolean isPrimary() {
+            return false;
         }
     }
 }

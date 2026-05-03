@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Background colors -->
     <color name="backgroundPrimary">#DC3131</color>
@@ -17,4 +18,22 @@
     <color name="buttonSecondary">#E60D0D</color>
 
     <color name="your_hint_color">#84FFFF</color>
+
+    <!-- New Theme Colors for Main Activity Layout -->
+    <color name="colorBackground">#0F0E0E</color>
+    <color name="colorCardBackground">#1A1A1A</color>
+    <color name="colorTextPrimary">#FFFFFF</color>
+    <color name="colorTextSecondary">#BFBFBF</color>
+    <color name="colorEmergency">#E74C3C</color>
+    <color name="colorOnEmergency">#FFFFFF</color>
+    <color name="colorHome">#3498DB</color>
+    <color name="colorSuccess">#43CE64</color>
+    <color name="colorHelp">#BAE2E1</color>
+    <color name="colorProfileButton">#F4F0E9</color>
+
+    <!-- Material Design Colors -->
+    <color name="colorPrimary">#E74C3C</color>
+    <color name="colorPrimaryVariant">#3498DB</color>
+    <color name="colorSecondary">#43CE64</color>
+    <color name="colorSecondaryVariant">#BAE2E1</color>
 </resources>

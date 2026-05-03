@@ -1,96 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#040101">
+    android:background="?attr/colorBackground"
+    android:paddingTop="12dp"
+    android:paddingBottom="32dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-        <!-- About Button (Question Mark) -->
+        <!-- Premium Header with Gradient Background -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="32dp"
+            app:cardBackgroundColor="?attr/colorCardBackground"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
-        <!-- Greeting TextView -->
-        <ImageButton
-            android:id="@+id/buttonAbout"
-            android:textColor="#B31111"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="#BAE2E1"
-        android:contentDescription="About"
-        android:src="@android:drawable/ic_menu_help" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
 
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:cardBackgroundColor="?attr/colorProfileButton"
+                    app:cardCornerRadius="35dp"
+                    app:cardElevation="4dp">
 
+                    <Button
+                        android:id="@+id/buttonProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorProfileButton"
+                        android:text="@string/emoji_woman"
+                        android:textSize="36sp"
+                        android:elevation="0dp" />
+                </com.google.android.material.card.MaterialCardView>
 
-        <!-- User Name TextView -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="16dp">
 
-        <!-- Edit Profile Button -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/welcome"
+                        android:textColor="?attr/colorTextSecondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.05" />
 
-        <TextView
-            android:id="@+id/greetingTextView"
-            android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/greetingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_placeholder"
+                        android:textColor="?attr/colorTextPrimary"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="4dp"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_info_details"
+                    android:tint="?attr/colorEmergency"
+                    android:contentDescription="@string/help_content_desc" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- HERO SOS BUTTON - Premium Design with Shadow -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginBottom="32dp"
+            app:cardBackgroundColor="?attr/colorCardBackground"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:strokeColor="?attr/colorEmergency"
+            app:strokeWidth="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="28dp">
+
+                <!-- Circular SOS Button with Ripple Effect -->
+
+                <!-- Description Text - Below SOS Button -->
+                <FrameLayout
+                    android:layout_width="160dp"
+                    android:layout_height="171dp"
+                    android:layout_marginBottom="24dp">
+
+                    <!-- Inner Button -->
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonSOS"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:backgroundTint="?attr/colorEmergency"
+                        android:elevation="8dp"
+                        android:text="@string/sos_button"
+                        android:textColor="?attr/colorOnEmergency"
+                        android:textSize="36sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="95dp"
+                        app:rippleColor="@android:color/white" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.03"
+                    android:text="@string/send_emergency_alert"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="13sp" />
+
+                <!-- Tap Hint -->
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Quick Actions Grid - 4 Buttons in 2x2 Layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="User"
-            android:textColor="#FFFFFF"
-            android:textSize="40sp"
-            android:textStyle="italic" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="32dp">
 
-        <Button
-            android:id="@+id/buttonProfile"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:backgroundTint="#FF8000"
-            android:text="Edit Profile"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp" />
+            <!-- Row 1: Emergency & Home -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="12dp">
 
-        <!-- Send SOS Button -->
-        <Button
-            android:id="@+id/buttonSOS"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:backgroundTint="#CC2B52"
-            android:text="Send SOS"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp" />
+                <!-- Call Emergency Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    app:cardBackgroundColor="?attr/colorCardBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="?attr/colorEmergency"
+                    app:strokeWidth="1.5dp">
 
-        <!-- Call Emergency Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonCall"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:backgroundTint="#CC2B52"
-            android:text="Call Emergency (100)"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
 
-        <!-- "I'm Safe" Button -->
-        <Button
-            android:id="@+id/buttonImSafe"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:backgroundTint="#43CE64"
-            android:text="I'm Safe"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            app:cardBackgroundColor="?attr/colorEmergency"
+                            app:cardCornerRadius="26dp"
+                            app:cardElevation="4dp">
 
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonCall"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="?attr/colorEmergency"
+                                android:text="@string/emoji_phone"
+                                android:textSize="24sp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                app:cornerRadius="26dp"
+                                app:rippleColor="@android:color/white" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/emergency"
+                            android:textColor="?attr/colorTextPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/call_100"
+                            android:textColor="?attr/colorTextSecondary"
+                            android:textSize="9sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Call Home Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="?attr/colorCardBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="?attr/colorHome"
+                    app:strokeWidth="1.5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            app:cardBackgroundColor="?attr/colorHome"
+                            app:cardCornerRadius="26dp"
+                            app:cardElevation="4dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonCallHome"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="?attr/colorHome"
+                                android:text="@string/emoji_home"
+                                android:textSize="24sp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                app:cornerRadius="26dp"
+                                app:rippleColor="@android:color/white" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/call_home"
+                            android:textColor="?attr/colorTextPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/family"
+                            android:textColor="?attr/colorTextSecondary"
+                            android:textSize="9sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Row 2: I'm Safe & Help -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <!-- I'm Safe Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    app:cardBackgroundColor="?attr/colorCardBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="?attr/colorSuccess"
+                    app:strokeWidth="1.5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            app:cardBackgroundColor="?attr/colorSuccess"
+                            app:cardCornerRadius="26dp"
+                            app:cardElevation="4dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonImSafe"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="?attr/colorSuccess"
+                                android:text="@string/emoji_check"
+                                android:textSize="24sp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                app:cornerRadius="26dp"
+                                app:rippleColor="@android:color/white" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/im_safe"
+                            android:textColor="?attr/colorTextPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/all_good"
+                            android:textColor="?attr/colorTextSecondary"
+                            android:textSize="9sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Help Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="?attr/colorCardBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="?attr/colorHelp"
+                    app:strokeWidth="1.5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            app:cardBackgroundColor="?attr/colorHelp"
+                            app:cardCornerRadius="26dp"
+                            app:cardElevation="4dp">
+
+                            <ImageButton
+                                android:id="@+id/buttonAbout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?attr/colorHelp"
+                                android:contentDescription="@string/help_content_desc"
+                                android:src="@android:drawable/ic_menu_help"
+                                android:scaleType="centerInside"
+                                android:tint="#000000" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/help"
+                            android:textColor="?attr/colorTextPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/emergency_info"
+                            android:textColor="?attr/colorTextSecondary"
+                            android:textSize="9sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Premium Info Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorCardBackground"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="6dp"
+            app:strokeColor="?attr/colorEmergency"
+            app:strokeWidth="1dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="24dp"
+                        android:background="?attr/colorEmergency"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quick_tips"
+                        android:textColor="?attr/colorTextPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tips_text"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="12sp"
+                    android:lineSpacingExtra="7dp"
+                    android:layout_marginTop="14dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

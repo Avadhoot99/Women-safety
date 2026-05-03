@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Color Attributes for Theme -->
+    <attr name="colorBackground" format="color" />
+    <attr name="colorCardBackground" format="color" />
+    <attr name="colorTextPrimary" format="color" />
+    <attr name="colorTextSecondary" format="color" />
+    <attr name="colorEmergency" format="color" />
+    <attr name="colorOnEmergency" format="color" />
+    <attr name="colorHome" format="color" />
+    <attr name="colorSuccess" format="color" />
+    <attr name="colorHelp" format="color" />
+    <attr name="colorProfileButton" format="color" />
+</resources>

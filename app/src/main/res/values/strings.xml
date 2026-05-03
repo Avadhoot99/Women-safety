@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WomenSafety</string>
     <string name="emergency_location_message">My current location is: https://maps.google.com/?q=%1$s,%2$s</string>
@@ -12,15 +13,17 @@
     <string name="contact_added">Contact %1$s added.</string>
     <string name="contact_already_exists">Contact already exists.</string>
     <string-array name="blood_groups">
+        <item>Select Blood Group</item> <!-- This is the hint -->
         <item>A+</item>
         <item>A-</item>
         <item>B+</item>
         <item>B-</item>
-        <item>O+</item>
-        <item>O-</item>
         <item>AB+</item>
         <item>AB-</item>
+        <item>O+</item>
+        <item>O-</item>
     </string-array>
+
     <string name="appname">Women Safety</string>
     <string name="hello_world">Hello World!</string>
     <string name="enter_your_full_name">Enter your full name</string>
@@ -28,4 +31,27 @@
     <string name="save_profile">Save Profile</string>
     <string name="add_emergency_contact">Add Emergency Contact</string>
     <string name="emergency_contacts">Emergency Contacts</string>
+
+    <!-- New UI Strings for Main Activity Layout -->
+    <string name="welcome">Welcome</string>
+    <string name="user_placeholder">User</string>
+    <string name="sos_button">SOS</string>
+    <string name="send_emergency_alert">Send Emergency Alert</string>
+    <string name="emergency">Emergency</string>
+    <string name="call_100">Call 100</string>
+    <string name="call_home">Call Home</string>
+    <string name="family">Family</string>
+    <string name="im_safe">I\'m Safe</string>
+    <string name="all_good">All good</string>
+    <string name="help">Help</string>
+    <string name="help_content_desc">Help and emergency information</string>
+    <string name="emergency_info">Emergency Info</string>
+    <string name="quick_tips">Quick Tips</string>
+    <string name="tips_text">✓ Keep your emergency contacts updated\n✓ Ensure location services are enabled\n✓ Check that SMS permissions are granted</string>
+
+    <!-- Emoji Strings -->
+    <string name="emoji_woman">👩🏻‍🦰</string>
+    <string name="emoji_phone">☎</string>
+    <string name="emoji_home">🏠</string>
+    <string name="emoji_check">✓</string>
 </resources>

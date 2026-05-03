@@ -77,22 +77,27 @@
             app:boxBackgroundMode="outline"
             android:layout_marginBottom="12dp">
 
+
             <Spinner
                 android:id="@+id/spinnerBloodGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/blood_groups"
-                android:padding="8dp"/>
+                android:padding="8dp" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSaveProfile"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="Save Profile"
             android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center" /> <!-- This will center the button horizontally -->
+
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/selectContactsButton"

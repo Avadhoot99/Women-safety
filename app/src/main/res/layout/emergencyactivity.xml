@@ -184,7 +184,6 @@
             android:background="@android:color/darker_gray"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp" />
-
         <!-- Developer Information -->
         <TextView
             android:id="@+id/textViewDevelopers"
@@ -198,7 +197,7 @@
             android:id="@+id/textViewDeveloper1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shridhar Patil - LinkedIn"
+            android:text="Avadhoot Patil - LinkedIn"
             android:textColor="@android:color/holo_blue_dark"
             android:clickable="true"
             android:focusable="true"
@@ -208,27 +207,7 @@
             android:id="@+id/textViewDeveloper2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shubham Swami - LinkedIn"
-            android:textColor="@android:color/holo_blue_dark"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="openLinkedInProfile" />
-
-        <TextView
-            android:id="@+id/textViewDeveloper3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prajwal Hiremath - LinkedIn"
-            android:textColor="@android:color/holo_blue_dark"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="openLinkedInProfile" />
-
-        <TextView
-            android:id="@+id/textViewDeveloper4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tejas Samant - LinkedIn"
+            android:text="Rahul Gharage - LinkedIn"
             android:textColor="@android:color/holo_blue_dark"
             android:clickable="true"
             android:focusable="true"

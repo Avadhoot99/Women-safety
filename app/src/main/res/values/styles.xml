@@ -1,8 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base App Theme for Main Activity -->
+    <style name="Theme.WomenSafety" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- New Theme Colors for Main Activity -->
+        <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorCardBackground">@color/colorCardBackground</item>
+        <item name="colorTextPrimary">@color/colorTextPrimary</item>
+        <item name="colorTextSecondary">@color/colorTextSecondary</item>
+        <item name="colorEmergency">@color/colorEmergency</item>
+        <item name="colorOnEmergency">@color/colorOnEmergency</item>
+        <item name="colorHome">@color/colorHome</item>
+        <item name="colorSuccess">@color/colorSuccess</item>
+        <item name="colorHelp">@color/colorHelp</item>
+        <item name="colorProfileButton">@color/colorProfileButton</item>
+
+        <!-- Material Design Colors -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:colorForeground">@color/colorTextPrimary</item>
+    </style>
+
     <!-- Custom style for TextInputLayout -->
     <style name="CustomTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="helperTextTextColor">@android:color/black</item> <!-- Set helper text color to black -->
-        <item name="hintTextColor">@color/textPrimary</item> <!-- Set hint text color to orange -->
+        <item name="helperTextTextColor">@android:color/black</item>
+        <item name="hintTextColor">@color/textPrimary</item>
     </style>
 
     <!-- Custom style for Spinner text -->
@@ -10,26 +34,20 @@
         <item name="android:textColor">@android:color/holo_red_light</item>
         <item name="actionMenuTextColor">#0B0505</item>
         <item name="actionButtonStyle">@android:color/holo_blue_dark</item>
-
     </style>
 
+    <!-- Button Styles -->
     <style name="ButtonPrimaryStyle">
         <item name="android:backgroundTint">@color/buttonPrimary</item>
-
     </style>
 
     <style name="ButtonSecondaryStyle">
         <item name="android:backgroundTint">@color/buttonSecondary</item>
-
     </style>
 
-
-
-
-        <style name="BoldBlackText">
-            <item name="android:textStyle">bold</item>
-            <item name="android:textColor">@color/backgroundProfile</item>
-        </style>
-
-
+    <!-- Text Styles -->
+    <style name="BoldBlackText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/backgroundProfile</item>
+    </style>
 </resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="locationTextView" type="id" />
+    <item name="spinnerBloodGroup" type="id" />
+    <item name="buttonSendSOS" type="id" />
+    <item name="buttonSelectContact" type="id" />
+    <item name="buttonProfile" type="id" />
+    <item name="buttonPickHomeNumber" type="id" />
+    <item name="listViewContacts" type="id" />
+    <item name="emergencyContactListTitle" type="id" />
+    <item name="buttonCallHomeSelect" type="id" />
+    <item name="selectContactsButton" type="id" />
+    <item name="buttonSaveProfile" type="id" />
+    <item name="avatarImage" type="id" />
+    <item name="profileTitle" type="id" />
+    <item name="nameEditText" type="id" />
+    <item name="ageEditText" type="id" />
+</resources>
